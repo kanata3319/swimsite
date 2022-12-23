@@ -8,9 +8,9 @@ Home
 {% block content %}
 <div class="container">
   <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-    <a href="{% url 'result_kojin' %}" class="btn btn-primary btn-block mb-3">個人記録</a>
+    <a href="{% url 'result_kojin_inv' %}" class="btn btn-primary btn-block mb-3">個人記録</a>
     <a href="{% url 'result_taikai' %}" class="btn btn-primary btn-block mb-3">大会記録</a>
   </div>
 </div>
-{% include '_header.html' %}
+{% include '_footer.html' %}
 {% endblock content %}

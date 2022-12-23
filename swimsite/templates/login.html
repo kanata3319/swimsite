@@ -12,18 +12,19 @@ Login
   <form method="post">
     {% csrf_token %}
     <img class="mb-4" src="{% static 'img/aqua_dome.jpg' %}" alt="" width="216" height="171">
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
     {{ form.non_field_errors }}
     <div class="form-floating mb-3">
+      <label>ユーザー名</label>
       <input type="text" class="form-control" id="id_username" name="username" placeholder="Username">
       {{ form.username.errors }}
     </div>
     <div class="form-floating mb-3">
+      <label>パスワード</label>
       <input type="password" class="form-control" id="id_password" name="password" placeholder="Password">
       {{ form.password.errors }}
     </div>
 
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">ログイン</button>
   </form>
 </main>
 {% endblock content %}

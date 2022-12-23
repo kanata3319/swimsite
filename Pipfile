@@ -8,6 +8,7 @@ psycopg2-binary = "*"
 django = "==3.2"
 flake8 = "*"
 django-bootstrap5 = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 

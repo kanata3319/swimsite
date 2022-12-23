@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+個人記録
+{% endblock title %}
+
+{% block content %}
+{% include '_record_kojin_search.html' %}
+
+<div class="container border-bottom mb-3">
+  <div>
+    {% regroup inv_qs by competition_id as sorted_inv_dic %}
+    {% for key, sorted_inv_list in sorted_inv_dic %}
+    {% for record in sorted_inv_list %}
+      {% if forloop.first %}
+      <h4>{{ record.competition }}</h4>
+      <table class="table table-sm table-default align-middle table-bordered table-striped">
+        <thead class="table-success">
+          <tr>
+            <th scope="col">種目</th>
+            <th scope="col">タイム</th>
+            <th scope="col">クラス<br>順位</th>
+            <th scope="col">全体<br>順位</th>
+          </tr>
+        </thead>
+        <tbody>
+      {% endif %}
+        <tr>
+          <td>{{ record.event }}</td>
+          <td class="text-right">{{ record.get_time_display }}</td>
+          <td class="text-right">{{ record.class_rank | default_if_none:"-" }}</td>
+          <td class="text-right">{{ record.all_rank | default_if_none:"-" }}</td>
+        </tr>
+    {% endfor %}
+      </tbody>
+    </table>
+    {% endfor %}
+  </div>
+</div>
+{% include '_footer.html' %}
+{% endblock content %}

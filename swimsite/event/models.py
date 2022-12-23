@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class SEX(models.TextChoices):
     MAN = 'man', '男子'
     WOMAN = 'women', '女子'
@@ -119,8 +120,9 @@ class IndividualEventResult(models.Model):
         on_delete=models.CASCADE,
     )
 
-    time = models.TimeField(
+    time = models.DecimalField(
         verbose_name = '時間',
+        max_digits=5, decimal_places=2,
         null=True, blank=True,
     )
 
@@ -133,6 +135,16 @@ class IndividualEventResult(models.Model):
         verbose_name = 'クラス順位',
         null=True, blank=True,
     )
+
+    def get_time_display(self):
+        if not self.time:
+            return ''
+        time_str = str(self.time)
+        num_str = int(time_str.split('.')[0])
+        decimal_str = int(time_str.split('.')[1])
+        if num_str >= 60:
+            return '{0:02}'.format(num_str//60) + "'" + '{0:02}'.format(num_str&60) + '"' + '{0:02}'.format(decimal_str) 
+        return '{0:02}'.format(num_str)  + '"' + '{0:02}'.format(decimal_str) 
 
 
 class RelayEvent(models.Model):
@@ -211,8 +223,9 @@ class RelayEventResult(models.Model):
         related_name="player_4",
     )
 
-    time = models.TimeField(
+    time = models.DecimalField(
         verbose_name = '時間',
+        max_digits=5, decimal_places=2,
         null=True, blank=True,
     )
 
@@ -225,3 +238,13 @@ class RelayEventResult(models.Model):
         verbose_name = 'クラス順位',
         null=True, blank=True,
     )
+
+    def get_time_display(self):
+        if not self.time:
+            return ''
+        time_str = str(self.time)
+        num_str = int(time_str.split('.')[0])
+        decimal_str = int(time_str.split('.')[1])
+        if num_str >= 60:
+            return '{0:02}'.format(num_str//60) + "'" + '{0:02}'.format(num_str&60) + '"' + '{0:02}'.format(decimal_str) 
+        return '   {0:02}'.format(num_str)  + '"' + '{0:02}'.format(decimal_str) 
