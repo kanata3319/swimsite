@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Login
+{% endblock title %}
+
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+<main class="form-signin w-100 m-auto">
+  <form method="post">
+    {% csrf_token %}
+    <img class="mb-4" src="{% static 'img/aqua_dome.jpg' %}" alt="" width="216" height="171">
+    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    {{ form.non_field_errors }}
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="id_username" name="username" placeholder="Username">
+      {{ form.username.errors }}
+    </div>
+    <div class="form-floating mb-3">
+      <input type="password" class="form-control" id="id_password" name="password" placeholder="Password">
+      {{ form.password.errors }}
+    </div>
+
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+  </form>
+</main>
+{% endblock content %}
