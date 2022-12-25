@@ -80,8 +80,6 @@ class IndividualEvent(models.Model):
         METER_100 = 100, '100m'
         METER_200 = 200, '200m'
         METER_400 = 400, '400m'
-        METER_800 = 800, '800m'
-        METER_1500 = 1500, '1500m'
 
     distance = models.SmallIntegerField(
         verbose_name = '距離',
@@ -165,7 +163,6 @@ class RelayEvent(models.Model):
         METER_100 = 100, '100m'
         METER_200 = 200, '200m'
         METER_400 = 400, '400m'
-        METER_800 = 800, '800m'
 
     distance = models.PositiveSmallIntegerField(
         verbose_name = '距離',
@@ -177,6 +174,9 @@ class RelayEvent(models.Model):
         max_length=5,
         choices=RELAY_SEX.choices,
     )
+
+    def __str__(self):
+        return self.get_sex_display() + self.get_distance_display() + self.get_style_display()
 
 
 class RelayEventResult(models.Model):
@@ -190,7 +190,7 @@ class RelayEventResult(models.Model):
     )
 
     event = models.ForeignKey(
-        IndividualEvent,
+        RelayEvent,
         verbose_name = '種目',
         on_delete=models.CASCADE,
     )
@@ -200,6 +200,7 @@ class RelayEventResult(models.Model):
         verbose_name = '第1泳者',
         on_delete=models.CASCADE,
         related_name="player_1",
+        null=True, blank=True,
     )
 
     player_2 = models.ForeignKey(
@@ -207,6 +208,7 @@ class RelayEventResult(models.Model):
         verbose_name = '第2泳者',
         on_delete=models.CASCADE,
         related_name="player_2",
+        null=True, blank=True,
     )
 
     player_3 = models.ForeignKey(
@@ -214,6 +216,7 @@ class RelayEventResult(models.Model):
         verbose_name = '第3泳者',
         on_delete=models.CASCADE,
         related_name="player_3",
+        null=True, blank=True,
     )
 
     player_4 = models.ForeignKey(
@@ -221,6 +224,7 @@ class RelayEventResult(models.Model):
         verbose_name = '第4泳者',
         on_delete=models.CASCADE,
         related_name="player_4",
+        null=True, blank=True,
     )
 
     time = models.DecimalField(

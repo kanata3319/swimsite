@@ -9,6 +9,9 @@ django = "==3.2"
 flake8 = "*"
 django-bootstrap5 = "*"
 django-debug-toolbar = "*"
+uwsgi = "*"
+django-extensions = "*"
+factory-boy = "*"
 
 [dev-packages]
 
