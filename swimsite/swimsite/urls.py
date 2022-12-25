@@ -18,13 +18,13 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.conf import settings
 from django.urls import include, path
 import debug_toolbar
-from event.views import HomeView, ResultKojinInvFormView, ResultTaikaiListView
+from event.views import HomeView, ResultKojinFormView, ResultTaikaiListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', LoginView.as_view(template_name='login.html'), name='login'),
     path('home/', HomeView.as_view(), name='home'),
-    path('result/kojin/inv', ResultKojinInvFormView.as_view(), name='result_kojin_inv'),
+    path('result/kojin', ResultKojinFormView.as_view(), name='result_kojin'),
     path('result/taikai', ResultTaikaiListView.as_view(), name='result_taikai'),
     path('logout/', LogoutView.as_view(template_name='login.html'), name="logout"),
 ]
