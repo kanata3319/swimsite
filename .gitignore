@@ -1,3 +1,4 @@
+/.vscode/*
 *.pyc
 /swimsite/*/migrations/*.py
 !/swimsite/*/migrations/__init__.py
