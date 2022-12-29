@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+大会記録
+{% endblock title %}
+
+{% block content %}
+<div class="container border-bottom mb-3">
+  <form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <div class="d-grid gap-2 mx-auto">
+      <button class="btn btn-primary btn-block mb-3" type="submit">検索</button>
+    </div>
+  </form>
+</div>
+
+{% if is_search %}
+<div class="container border-bottom mb-3">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a href="#inv" class="nav-link active" data-bs-toggle="tab">個人</a>
+    </li>
+    <li class="nav-item">
+      <a href="#relay" class="nav-link" data-bs-toggle="tab">リレー</a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div id="inv" class="tab-pane active">
+      <div class="mt-3"></div>
+      {% regroup inv_qs by event_id as sorted_inv_dic %}
+      {% for key, sorted_inv_list in sorted_inv_dic %}
+      {% for record in sorted_inv_list %}
+        {% if forloop.first %}
+        <div class="card mb-3">
+          <div class="card-header">種目:{{ record.event }}</div>
+          <table class="table table-sm table-bordered table-striped">
+            <thead class="table-success">
+              <tr>
+                <th class="align-middle" scope="col">名前</th>
+                <th class="align-middle" scope="col">タイム</th>
+                <th class="align-middle" scope="col">クラス<br>順位</th>
+                <th class="align-middle" scope="col">全体<br>順位</th>
+              </tr>
+            </thead>
+            <tbody>
+        {% endif %}
+              <tr>
+                <td>{{ record.player }}</td>
+                <td class="text-right">{{ record.get_time_display }}</td>
+                <td class="text-right">{{ record.class_rank | default_if_none:"-" }}</td>
+                <td class="text-right">{{ record.all_rank | default_if_none:"-" }}</td>
+              </tr>
+      {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% endfor %}
+    </div>
+    <div id="relay" class="tab-pane">
+      <div class="mt-3"></div>
+      {% regroup relay_qs by event_id as sorted_relay_dic %}
+      {% for key, sorted_relay_list in sorted_relay_dic %}
+      {% for record in sorted_relay_list %}
+        {% if forloop.first %}
+        <div class="card mb-3">
+          <div class="card-header">{{ record.event }}</div>
+          <table class="table table-responsive table-sm table-bordered table-striped">
+            <thead class="table-success">
+              <tr>
+                <th class="align-middle" scope="col">タイム</th>
+                <th class="align-middle" scope="col">第1泳者</th>
+                <th class="align-middle" scope="col">第2泳者</th>
+                <th class="align-middle" scope="col">第3泳者</th>
+                <th class="align-middle" scope="col">第4泳者</th>
+                <th class="align-middle" scope="col">クラス<br>順位</th>
+                <th class="align-middle" scope="col">全体<br>順位</th>
+              </tr>
+            </thead>
+            <tbody>
+        {% endif %}
+              <tr>
+                <td class="text-right">{{ record.get_time_display }}</td>
+                <td>{{ record.player_1 | default_if_none:"-" }}</td>
+                <td>{{ record.player_2 | default_if_none:"-" }}</td>
+                <td>{{ record.player_3 | default_if_none:"-" }}</td>
+                <td>{{ record.player_4 | default_if_none:"-" }}</td>
+                <td class="text-right">{{ record.class_rank | default_if_none:"-" }}</td>
+                <td class="text-right">{{ record.all_rank | default_if_none:"-" }}</td>
+              </tr>
+      {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% include '_footer.html' %}
+{% endblock content %}

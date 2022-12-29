@@ -1,4 +1,13 @@
 # swimsite
+## Python+Django Project
 
-### Github認証
-https://ginnyfahs.medium.com/github-error-authentication-failed-from-command-line-3a545bfd0ca8
+```
+python manage.py makemigrations
+python manage.py migrate
+python manage.py collectstatic --settings=swimsite.pro_settings
+uwsgi --ini /home/tanaka/swimsite/swimsite/uwsgi.ini
+```
+
+```
+ps -Af | grep wsgi
+```

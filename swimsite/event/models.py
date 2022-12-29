@@ -54,7 +54,10 @@ class Competition(models.Model):
     )
 
     def __str__(self):
-        return self.name + '(' + str(self.event_date) + ')'
+        res_str = self.name + '(' + str(self.event_date) + ')'
+        if IndividualEventResult.objects.filter(competition=self).count() == 0:
+            res_str += "(参加者なし)"
+        return res_str
 
 
 class IndividualEvent(models.Model):
@@ -138,11 +141,12 @@ class IndividualEventResult(models.Model):
         if not self.time:
             return ''
         time_str = str(self.time)
-        num_str = int(time_str.split('.')[0])
-        decimal_str = int(time_str.split('.')[1])
-        if num_str >= 60:
-            return '{0:02}'.format(num_str//60) + "'" + '{0:02}'.format(num_str&60) + '"' + '{0:02}'.format(decimal_str) 
-        return '{0:02}'.format(num_str)  + '"' + '{0:02}'.format(decimal_str) 
+        num = int(time_str.split('.')[0])
+        dec = int(time_str.split('.')[1])
+        if num >= 60:
+            num_div, num_mod = divmod(num,60)
+            return '{0:02}'.format(num_div) + "'" + '{0:02}'.format(num_mod) + '"' + '{0:02}'.format(dec) 
+        return '   {0:02}'.format(num)  + '"' + '{0:02}'.format(dec) 
 
 
 class RelayEvent(models.Model):
@@ -247,8 +251,9 @@ class RelayEventResult(models.Model):
         if not self.time:
             return ''
         time_str = str(self.time)
-        num_str = int(time_str.split('.')[0])
-        decimal_str = int(time_str.split('.')[1])
-        if num_str >= 60:
-            return '{0:02}'.format(num_str//60) + "'" + '{0:02}'.format(num_str&60) + '"' + '{0:02}'.format(decimal_str) 
-        return '   {0:02}'.format(num_str)  + '"' + '{0:02}'.format(decimal_str) 
+        num = int(time_str.split('.')[0])
+        dec = int(time_str.split('.')[1])
+        if num >= 60:
+            num_div, num_mod = divmod(num,60)
+            return '{0:02}'.format(num_div) + "'" + '{0:02}'.format(num_mod) + '"' + '{0:02}'.format(dec) 
+        return '   {0:02}'.format(num)  + '"' + '{0:02}'.format(dec) 
