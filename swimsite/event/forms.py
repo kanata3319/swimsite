@@ -18,3 +18,15 @@ class RecordKojinForm(forms.Form):
         for field in self.base_fields.values():
             field.widget.attrs["class"] = "form-control"
         super().__init__(*args, **kwargs)
+
+
+class RecordTaikaiForm(forms.Form):
+    competition = forms.ModelChoiceField(
+        e_models.Competition.objects.all(),
+        label="大会名",
+    )
+
+    def __init__(self, *args, **kwargs):
+        for field in self.base_fields.values():
+            field.widget.attrs["class"] = "form-control"
+        super().__init__(*args, **kwargs)

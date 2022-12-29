@@ -38,5 +38,25 @@ class ResultKojinFormView(LoginRequiredMixin, FormView):
         return context
 
 
-class ResultTaikaiListView(LoginRequiredMixin, TemplateView):
-    template_name = 'home.html'
+class ResultTaikaiListView(LoginRequiredMixin, FormView):
+    """大会記録"""
+    template_name = 'record_taikai.html'
+    form_class = e_forms.RecordTaikaiForm
+
+    def form_valid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        context['is_search'] = self.request.method == 'POST'
+        if 'form' not in kwargs:
+            return context
+
+        form = kwargs['form']
+        competition = form.cleaned_data['competition']
+        inv_qs = e_models.IndividualEventResult.objects.filter(competition=competition).order_by('event','time')
+        relay_qs = e_models.RelayEventResult.objects.filter(competition=competition).order_by('event','time')
+        context['inv_qs'] = inv_qs
+        context['relay_qs'] = relay_qs
+
+        return context
