@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+個人記録 登録
+{% endblock title %}
+
+{% block content %}
+<div class="container border-bottom mb-3">
+  {% if messages %}
+  <ul class="messages_ul">
+    {% for message in messages %}
+    <li class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {{ form.time.errors }}
+    <div class="d-grid gap-2 mx-auto">
+      <button class="btn btn-primary btn-block mb-3" type="submit">登録</button>
+    </div>
+  </form>
+</div>
+{% include '_footer.html' %}
+{% endblock content %}

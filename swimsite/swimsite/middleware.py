@@ -1,4 +1,5 @@
 import logging
+from django.conf import settings
 from django.shortcuts import render
 
 logger = logging.getLogger('access')
@@ -16,4 +17,5 @@ class AccessLoggingMiddleware:
 
     def process_exception(self, request, exception):
         logger.error('[user:{}]{}'.format(request.user, exception), exc_info=True)
-        return render(request, '500error.html')
+        if not settings.DEBUG:
+            return render(request, '500error.html')

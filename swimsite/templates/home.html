@@ -6,10 +6,19 @@ Home
 {% endblock title %}
 
 {% block content %}
+<style>
+a.disabled{
+  pointer-events: none;
+}
+</style>
 <div class="container">
   <div class="d-grid gap-2 mx-auto mb-4 border-bottom">
     <a href="{% url 'result_kojin' %}" class="btn btn-primary mb-3">個人記録</a>
     <a href="{% url 'result_taikai' %}" class="btn btn-primary mb-3">大会記録</a>
+  </div>
+  <div class="d-grid gap-2 mx-auto mb-4 border-bottom">
+    <a href="{% url 'result_kojin_create' %}" class="btn btn-primary mb-3">個人記録 登録</a>
+    <a href="{% url 'result_relay_create' %}" class="btn btn-primary mb-3 disabled" aria-disabled="true">リレー記録 登録</a>
   </div>
 </div>
 {% include '_footer.html' %}
